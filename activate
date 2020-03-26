@@ -6,7 +6,7 @@ set -o pipefail
 nixroot="$(dirname "$0")"
 
 if [ "$#" -eq 0 ]; then
-    sys="$(hostname -s)"
+    sys="$(hostname -f)"
     if ! [ -f "sys/$sys.nix" ]; then
         echo -e "\e[31;1merror:\e[0m must specify a system definition" >&2
         echo "Available system definitions are:" >&2
