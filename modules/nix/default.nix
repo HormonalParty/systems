@@ -3,7 +3,7 @@
 {
   nix = {
     nixPath = [
-      "nixos-config=/run/current-system/systems/sys/${config.networking.hostName}.nix"
+      "nixos-config=/run/current-system/systems/sys/${config.networking.hostName}/configuration.nix"
       "/var/run/current-system/systems"
     ];
     useSandbox = true;

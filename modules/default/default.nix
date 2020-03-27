@@ -1,8 +1,9 @@
 { config, pkgs, lib, ... }:
 {
   imports = [
-    ./nix
-    ./minimal-ops.nix
+    ../nix
+    ../ops
+    ../users
   ];
 
   nixpkgs.config.allowUnfree = true;
