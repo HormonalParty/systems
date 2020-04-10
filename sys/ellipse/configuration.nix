@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../modules/default
     ../../modules/hardware/intel
+    ../../modules/use-remote-builds
   ];
 
   boot.loader.systemd-boot.enable = true;
