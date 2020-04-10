@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ../../modules/default
     ../../modules/hardware/amd
+    ../../modules/remote-build-host
   ];
 
   boot.loader.grub = {

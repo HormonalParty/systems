@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/default
+    ../../modules/remote-build-host
     ../../modules/hardware/intel
   ];
 
