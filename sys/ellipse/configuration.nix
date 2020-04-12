@@ -6,6 +6,7 @@
     ../../modules/default
     ../../modules/hardware/intel
     ../../modules/use-remote-builds
+    ../../modules/monitoring/target
   ];
 
   boot.loader.systemd-boot.enable = true;

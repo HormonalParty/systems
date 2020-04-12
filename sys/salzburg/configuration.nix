@@ -38,6 +38,14 @@
         alias = "home.terrible.systems";
       };
     }
+    {
+      targets = [
+        "ellipse.fritz.box:9100"
+      ];
+      labels = {
+        alias = "plex.terrible.systems";
+      };
+    }
     ];
   };
 
