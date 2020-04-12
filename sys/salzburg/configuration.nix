@@ -6,6 +6,7 @@
     ../../modules/default
     ../../modules/remote-build-host
     ../../modules/hardware/intel
+    ../../modules/monitoring/server
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -24,6 +25,21 @@
   time.timeZone = "UTC";
 
   services.zfs.autoScrub.enable = true;
+
+  hormonalparty.monitoring-server = {
+    enable = true;
+    grafanaDomain = "salzburg.fritz.box:3000";
+    nodeScrapeTargets = [
+    {
+      targets = [
+        "mrow.fritz.box:9100"
+      ];
+      labels = {
+        alias = "home.terrible.systems";
+      };
+    }
+    ];
+  };
 
   system.stateVersion = "20.09";
 }
