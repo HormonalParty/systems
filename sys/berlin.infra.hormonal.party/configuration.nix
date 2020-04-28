@@ -132,4 +132,11 @@
     };
   };
 
+  services.quassel = {
+    enable = true;
+    certificateFile = "/var/lib/quassel/quasselCert.pem";
+    requireSSL = true;
+    dataDir = "/var/lib/quassel";
+    interfaces = [ "0.0.0.0" ];
+  };
 }
