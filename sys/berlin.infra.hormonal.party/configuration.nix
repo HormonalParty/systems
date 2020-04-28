@@ -23,7 +23,7 @@
 
   networking = {
     firewall = {
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ 22 443 80 config.services.quassel.portNumber ];
       enable = true;
     };
 
@@ -55,4 +55,81 @@
   time.timeZone = "UTC";
 
   system.stateVersion = "20.09";
+
+  virtualisation.docker.enable = true;
+
+  docker-containers."recipies-danielle-fyi" = {
+    image = "ghost:3.13";
+    environment = {
+      url = "https://recipies.danielle.fyi";
+      WEB_DOMAIN = "https://recipies.danielle.fyi";
+    };
+    volumes = [
+      "/var/lib/recipies-danielle-fyi:/var/lib/ghost/content"
+    ];
+    ports = [
+      "2368:2368"
+    ];
+  };
+
+  security.acme.acceptTerms = true;
+
+  security.acme.certs."recipies.danielle.fyi".email = "dani@builds.terrible.systems";
+
+  services.nginx = {
+    enable = true;
+
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    commonHttpConfig = ''
+      # Add HSTS header with preloading to HTTPS requests.
+      # Adding this header to HTTP requests is discouraged
+      map $scheme $hsts_header {
+          https   "max-age=31536000; includeSubdomains; preload";
+      }
+      add_header Strict-Transport-Security $hsts_header;
+
+      # Enable CSP for your services.
+      #add_header Content-Security-Policy "script-src 'self'; object-src 'none'; base-uri 'none';" always;
+
+      # Minimize information leaked to other domains
+      add_header 'Referrer-Policy' 'origin-when-cross-origin';
+
+      # Disable embedding as a frame
+      add_header X-Frame-Options DENY;
+
+      # Prevent injection of code in other mime types (XSS Attacks)
+      add_header X-Content-Type-Options nosniff;
+
+      # Enable XSS protection of the browser.
+      # May be unnecessary when CSP is configured properly (see above)
+      add_header X-XSS-Protection "1; mode=block";
+
+      # This might create errors
+      proxy_cookie_path / "/; secure; HttpOnly; SameSite=strict";
+    '';
+
+    enableReload = true;
+  };
+
+  services.nginx.virtualHosts."recipies.danielle.fyi" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://localhost:2368/";
+
+      extraConfig = ''
+        proxy_redirect off;
+        proxy_set_header    X-Real-IP $remote_addr;
+        proxy_set_header    Host      $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        server_name_in_redirect off;
+      '';
+    };
+  };
+
 }
