@@ -6,6 +6,7 @@
     ../../modules/default
     ../../modules/remote-build-host
     ../../modules/hardware/intel
+    ../../modules/plex
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -24,6 +25,7 @@
   time.timeZone = "UTC";
 
   services.zfs.autoScrub.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   system.stateVersion = "20.09";
 }
