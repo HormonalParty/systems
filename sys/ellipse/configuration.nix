@@ -6,6 +6,7 @@
     ../../modules/default
     ../../modules/hardware/intel
     ../../modules/use-remote-builds
+    ../../modules/zfs
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -17,13 +18,6 @@
 
   networking.useDHCP = false;
   networking.interfaces.enp3s0f0.useDHCP = true;
-
-  services.zfs.autoScrub.enable = true;
-  services.zfs.autoSnapshot = {
-    enable = true;
-    frequent = 8;
-    monthly = 3;
-  };
 
   networking.firewall = {
     enable = true;
