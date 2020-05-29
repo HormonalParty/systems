@@ -25,6 +25,7 @@
   time.timeZone = "UTC";
 
   services.zfs.autoScrub.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   system.stateVersion = "20.09";
 }
