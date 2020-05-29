@@ -25,7 +25,10 @@
   time.timeZone = "UTC";
 
   services.zfs.autoScrub.enable = true;
+
+  services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.nvidiaPersistenced = true;
 
   system.stateVersion = "20.09";
 }
