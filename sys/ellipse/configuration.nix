@@ -6,7 +6,6 @@
     ../../modules/default
     ../../modules/hardware/intel
     ../../modules/use-remote-builds
-    ../../modules/plex
   ];
 
   boot.loader.systemd-boot.enable = true;
