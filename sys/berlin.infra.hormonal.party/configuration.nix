@@ -6,6 +6,7 @@
     ../../modules/default
     ../../modules/hardware/amd
     ../../modules/remote-build-host
+    ../../modules/zfs
   ];
 
   boot.loader.grub = {
@@ -52,8 +53,6 @@
   };
 
   time.timeZone = "UTC";
-
-  services.zfs.autoScrub.enable = true;
 
   system.stateVersion = "20.09";
 }
