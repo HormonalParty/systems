@@ -18,7 +18,8 @@
     ];
   };
 
-  networking.hostName = "berlin.infra.hormonal.party";
+  networking.hostName = "berlin";
+  networking.domain = "infra.hormonal.party";
   networking.hostId = "7d25489c";
 
   networking = {
