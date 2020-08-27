@@ -1,5 +1,11 @@
 { config, lib, pkgs, ... }:
 
+let portMap = {
+  recipies = 2368; 
+  quassel = 4242;
+  grafana = 3000;
+  loki = 3001;
+}; in
 {
   imports = [
     ./hardware-configuration.nix
@@ -59,7 +65,9 @@
 
   virtualisation.docker.enable = true;
 
-  docker-containers."recipies-danielle-fyi" = {
+  virtualisation.oci-containers.backend = "docker";
+
+  virtualisation.oci-containers.containers."recipies-danielle-fyi" = {
     image = "ghost:3.13";
     environment = {
       url = "https://recipies.danielle.fyi";
@@ -69,13 +77,14 @@
       "/var/lib/recipies-danielle-fyi:/var/lib/ghost/content"
     ];
     ports = [
-      "2368:2368"
+      "${toString portMap.recipies}:2368"
     ];
   };
 
   security.acme.acceptTerms = true;
 
   security.acme.certs."recipies.danielle.fyi".email = "dani@builds.terrible.systems";
+  security.acme.certs."grafana.svc.hormonal.party".email = "dani@builds.terrible.systems";
 
   services.nginx = {
     enable = true;
@@ -120,12 +129,28 @@
     enableACME = true;
     forceSSL = true;
     locations."/" = {
-      proxyPass = "http://localhost:2368/";
+      proxyPass = "http://localhost:${toString portMap.recipies}/";
 
       extraConfig = ''
         proxy_redirect off;
         proxy_set_header    X-Real-IP $remote_addr;
         proxy_set_header    Host      $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        server_name_in_redirect off;
+      '';
+    };
+  };
+
+  services.nginx.virtualHosts."grafana.svc.hormonal.party" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://localhost:${toString portMap.grafana}/";
+
+      extraConfig = ''
+        proxy_redirect off;
+        proxy_set_header    X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         server_name_in_redirect off;
@@ -139,5 +164,79 @@
     requireSSL = true;
     dataDir = "/var/lib/quassel";
     interfaces = [ "0.0.0.0" ];
+  };
+
+  services.grafana = {
+    enable   = true;
+    port     = portMap.grafana;
+    domain   = "localhost";
+    protocol = "http";
+    rootUrl  = "https://grafana.svc.hormonal.party";
+    dataDir  = "/var/lib/grafana";
+
+    provision.datasources = [
+      {
+        name = "loki";
+        type = "loki";
+        url = "localhost:${toString portMap.loki}";
+      }
+    ];
+  };
+
+  services.loki = {
+    enable = true;
+
+    configuration = {
+      auth_enabled = false;
+
+      server = {
+        http_listen_port = portMap.loki;
+      };
+
+      ingester = {
+        lifecycler = {
+          address = "127.0.0.1";
+          ring = {
+            kvstore = {
+              store = "inmemory";
+            };
+            replication_factor = 1;
+          };
+          final_sleep = "0s";
+        };
+        chunk_idle_period = "5m";
+        chunk_retain_period = "30s";
+      };
+       
+      storage_config = {
+        boltdb = {
+          directory = "/var/lib/loki/index";
+        };
+        filesystem = {
+          directory = "/var/lib/loki/chunks";
+        };
+      };
+
+      schema_config = {
+        configs = [
+          {
+            from = "2020-05-15";
+            store = "boltdb";
+            object_store = "filesystem";
+            schema = "v11";
+            index = {
+              prefix = "index_";
+              period = "168h";
+            };
+          }
+        ];
+      };
+
+      limits_config = {
+        enforce_metric_name = false;
+        reject_old_samples = true;
+        reject_old_samples_max_age = "168h";
+      };
+    };
   };
 }
