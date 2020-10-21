@@ -19,7 +19,7 @@
   networking.networkmanager.enable = true;
 
   networking.firewall = {
-    allowedTCPPorts = [ 22 ];
+    allowedTCPPorts = [ 22 51826 ];
     enable = true;
   };
 
@@ -28,6 +28,29 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.nvidiaPersistenced = true;
+
+  virtualisation.docker.enable = true;
+
+  virtualisation.oci-containers.backend = "docker";
+  virtualisation.oci-containers.containers."homebridge" = {
+    image = "oznu/homebridge";
+
+    environment = {
+      PUID = "1000";
+      PGID = "1000";
+      HOMEBRIDGE_CONFIG_UI = "0";
+    };
+
+    extraOptions = [ "--network=host" ];
+
+    volumes = [
+      "/var/lib/homebridge:/homebridge"
+    ];
+
+    ports = [
+      "51826:51826"
+    ];
+  };
 
   system.stateVersion = "20.09";
 }
