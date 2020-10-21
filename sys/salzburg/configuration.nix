@@ -27,7 +27,6 @@
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.nvidiaPersistenced = true;
 
   virtualisation.docker.enable = true;
 
