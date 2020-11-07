@@ -70,8 +70,8 @@ let portMap = {
   virtualisation.oci-containers.containers."recipies-danielle-fyi" = {
     image = "ghost:3.13";
     environment = {
-      url = "https://recipies.danielle.fyi";
-      WEB_DOMAIN = "https://recipies.danielle.fyi";
+      url = "https://recipes.danielle.fyi";
+      WEB_DOMAIN = "https://recipes.danielle.fyi";
     };
     volumes = [
       "/var/lib/recipies-danielle-fyi:/var/lib/ghost/content"
@@ -84,7 +84,9 @@ let portMap = {
   security.acme.acceptTerms = true;
 
   security.acme.certs."recipies.danielle.fyi".email = "dani@builds.terrible.systems";
+  security.acme.certs."recipes.danielle.fyi".email = "dani@builds.terrible.systems";
   security.acme.certs."grafana.svc.hormonal.party".email = "dani@builds.terrible.systems";
+  security.acme.certs."reg.svc.hormonal.party".email = "dani@builds.terrible.systems";
 
   services.nginx = {
     enable = true;
@@ -126,6 +128,23 @@ let portMap = {
   };
 
   services.nginx.virtualHosts."recipies.danielle.fyi" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://localhost:${toString portMap.recipies}/";
+
+      extraConfig = ''
+        proxy_redirect off;
+        proxy_set_header    X-Real-IP $remote_addr;
+        proxy_set_header    Host      $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        server_name_in_redirect off;
+      '';
+    };
+  };
+
+  services.nginx.virtualHosts."recipes.danielle.fyi" = {
     enableACME = true;
     forceSSL = true;
     locations."/" = {
