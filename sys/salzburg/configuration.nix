@@ -19,7 +19,13 @@
   networking.networkmanager.enable = true;
 
   networking.firewall = {
-    allowedTCPPorts = [ 22 51826 ];
+    allowedTCPPorts = [
+      22 # SSH
+      51826 # Plex
+      6443 # k3s
+      80 443 # k3s ingress
+      8123 # home assistant
+    ];
     enable = true;
   };
 
@@ -49,6 +55,11 @@
     ports = [
       "51826:51826"
     ];
+  };
+
+  services.k3s = {
+    enable = true;
+    docker = true;
   };
 
   system.stateVersion = "20.09";
