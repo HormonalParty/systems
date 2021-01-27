@@ -25,6 +25,7 @@
       6443 # k3s
       80 443 # k3s ingress
       8123 # home assistant
+      30001 # athens (go module proxy)
     ];
     enable = true;
   };
