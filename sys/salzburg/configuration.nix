@@ -19,12 +19,12 @@
   networking.networkmanager.enable = true;
 
   networking.firewall = {
-    allowedUDPPorts = [ 52 ];
+    allowedUDPPorts = [ 53 ];
     allowedTCPPorts = [
       22 # SSH
       51826 # Plex
       6443 # k3s
-      52 # dns
+      53 # dns
       80 443 # k3s ingress
       8123 # home assistant
       30001 # athens (go module proxy)
@@ -33,6 +33,10 @@
   };
 
   time.timeZone = "UTC";
+
+  environment.systemPackages = with pkgs; [
+    nfs-utils
+  ];
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
