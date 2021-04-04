@@ -19,10 +19,12 @@
   networking.networkmanager.enable = true;
 
   networking.firewall = {
+    allowedUDPPorts = [ 52 ];
     allowedTCPPorts = [
       22 # SSH
       51826 # Plex
       6443 # k3s
+      52 # dns
       80 443 # k3s ingress
       8123 # home assistant
       30001 # athens (go module proxy)
