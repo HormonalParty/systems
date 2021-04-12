@@ -122,6 +122,7 @@
       53 # dns
       80 443 # k3s ingress
       8123 # home assistant
+      9003 # nix-cache
       30001 # athens (go module proxy)
     ];
     enable = true;
