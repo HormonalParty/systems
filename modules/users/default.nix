@@ -17,6 +17,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKDmex7rvB7BFd9OxQHfgqKogiN69kHvixCzWWEGh5oY maxine@chirm"
     ];
+    uid = 1002;
   };
 
   users.users.danielle = {
@@ -28,6 +29,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM3bsRW8tLBO3PmpXPrpE635Zu7qOWgWvDRrTm2QQh8Z" # mir
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINx6NhFAcuwyR3ralO+ikopApVQieJtXHieLkQlQN/dn danielle@mimas"
     ];
+    uid = 1000;
   };
 
   security.sudo.wheelNeedsPassword = false;

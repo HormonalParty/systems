@@ -13,6 +13,8 @@
     telnet
     nmap
     lm_sensors
+    smartmontools
+    nvme-cli
   ];
 
   programs.mtr.enable = true;
