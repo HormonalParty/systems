@@ -10,6 +10,7 @@
     ../../modules/hardware/nvidia
     ../../modules/plex
     ../../modules/zfs
+    ../../modules/vpn
   ];
 
   boot.loader.systemd-boot.enable = true;
