@@ -10,7 +10,7 @@
     htop
     dnsutils
     lsof
-    telnet
+    inetutils
     nmap
     lm_sensors
     smartmontools
