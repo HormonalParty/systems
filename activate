@@ -21,7 +21,7 @@ fi
 export NIX_PATH=nixos-config=$nixroot/sys/$sys/configuration.nix:$nixroot
 linkdir="$(mktemp -d)"
 link="$linkdir/result"
-nix build -f '<nixpkgs/nixos>' --out-link "$link" "$@" system
+nix --extra-experimental-features nix-command build -f '<nixpkgs/nixos>' --out-link "$link" "$@" system
 path="$(readlink "$link")"
 nix-env -p /nix/var/nix/profiles/system --set "$path"
 rm -rf "$linkdir"
