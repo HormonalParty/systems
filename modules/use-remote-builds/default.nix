@@ -4,17 +4,17 @@
   nix = {
     buildMachines = [
       {
-        hostName = "salzburg.local";
-        system = "x86_64-linux";
-        maxJobs = 8;
-        speedFactor = 3;
-        supportedFeatures = [ "benchmark" "big-parallel" "nixos-tests" "kvm" ];
-        mandatoryFeatures = [ ];
-      }
-      {
         hostName = "berlin.infra.hormonal.party";
         system = "x86_64-linux";
         maxJobs = 12;
+        speedFactor = 2;
+        supportedFeatures = [ "nixos-tests" "benchmark" "big-parallel" "kvm" ];
+        mandatoryFeatures = [ ];
+      }
+      {
+        hostName = "lisbon.infra.hormonal.party";
+        system = "x86_64-linux";
+        maxJobs = 16;
         speedFactor = 2;
         supportedFeatures = [ "nixos-tests" "benchmark" "big-parallel" "kvm" ];
         mandatoryFeatures = [ ];
@@ -27,4 +27,3 @@
     '';
   };
 }
-
