@@ -83,9 +83,7 @@ let portMap = {
 
   security.acme.acceptTerms = true;
 
-  security.acme.certs."recipies.danielle.fyi".email = "dani@builds.terrible.systems";
-  security.acme.certs."recipes.danielle.fyi".email = "dani@builds.terrible.systems";
-  security.acme.certs."grafana.svc.hormonal.party".email = "dani@builds.terrible.systems";
+  security.acme.defaults.email = "dani@builds.terrible.systems";
 
   services.nginx = {
     enable = true;
