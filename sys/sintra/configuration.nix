@@ -86,8 +86,10 @@
     enable = true;
     securityType = "user";
     extraConfig = ''
-      hosts allow = 192.168.178.0/24 localhost
+      hosts allow = 192.168.2.0/24 localhost
       hosts deny = 0.0.0.0/0
+      vfs objects = catia fruit streams_xattr
+      fruit:appl = yes
     '';
     shares = {
       media = {
@@ -105,6 +107,16 @@
         "guest ok" = "no";
         "create mask" = "0600";
         "directory mask" = "0700";
+        "valid users" = "danielle";
+      };
+      maxine = {
+        path = "/storage/home/maxine";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0600";
+        "directory mask" = "0700";
+        "valid users" = "maxine";
       };
     };
   };
