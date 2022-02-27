@@ -21,7 +21,7 @@
 
   networking.networkmanager.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_5_15;
 
   # initrd SSH
   networking.interfaces.enp8s0.useDHCP = true;
@@ -111,37 +111,40 @@
 
   networking.firewall = {
     allowedUDPPorts = [
-      53 # dns
       137 138 # samba
      ];
     allowedTCPPorts = [
       2049 # nfs
-      22 # SSH
+      22 # ssh
       445 139 # samba
-      51826 # Plex
-      6443 # k3s
-      53 # dns
-      80 443 # k3s ingress
-      8123 # home assistant
-      9003 # nix-cache
-      30001 # athens (go module proxy)
+      443
+      80
     ];
     enable = true;
   };
 
-  virtualisation.docker = {
-    enable = true;
-    enableNvidia = true;
-    storageDriver = "overlay2";
+  security.acme.acceptTerms = true;
+  security.acme.defaults.email = "dani@builds.terrible.systems";
 
-    autoPrune = {
-      enable = true;
-    };
+  services.nginx.enable = true;
+
+  services.nginx.virtualHosts."nixcache.infra.terrible.systems" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/".extraConfig = ''
+      proxy_pass http://127.0.0.1:${toString config.services.nix-serve.port};
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    '';
   };
 
-  services.k3s = {
-    enable = true;
-    docker = true;
+  services.nginx.virtualHosts."plex.terrible.systems" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:32400";
+    };
   };
 
   time.timeZone = "UTC";
