@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let portMap = {
-  recipies = 2368; 
+  recipies = 2368;
   quassel = 4242;
   grafana = 3000;
   loki = 3001;
@@ -86,7 +86,6 @@ let portMap = {
   security.acme.certs."recipies.danielle.fyi".email = "dani@builds.terrible.systems";
   security.acme.certs."recipes.danielle.fyi".email = "dani@builds.terrible.systems";
   security.acme.certs."grafana.svc.hormonal.party".email = "dani@builds.terrible.systems";
-  security.acme.certs."reg.svc.hormonal.party".email = "dani@builds.terrible.systems";
 
   services.nginx = {
     enable = true;
@@ -226,7 +225,7 @@ let portMap = {
         chunk_idle_period = "5m";
         chunk_retain_period = "30s";
       };
-       
+
       storage_config = {
         boltdb = {
           directory = "/var/lib/loki/index";
