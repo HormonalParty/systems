@@ -21,8 +21,6 @@
 
   networking.networkmanager.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_5_15;
-
   # initrd SSH
   networking.interfaces.enp8s0.useDHCP = true;
   boot.initrd.network = {

@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  boot.kernelPackages = pkgs.linuxPackages_5_15;
+
   environment.systemPackages = with pkgs; [
     git
     tmux
