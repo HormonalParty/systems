@@ -8,7 +8,12 @@
     exporters = {
       node = {
         enable = true;
-        enabledCollectors = [ "systemd" ];
+        disabledCollectors = [
+          "arp" "bcache" "bonding" "btrfs" "conntrack" "dmi" "entropy" "fibrechannel"
+          "filefd" "infiniband" "ipvs" "netclass" "netdev" "nfs" "nfsd" "os"
+          "powersupplyclass" "pressure" "rapl" "schedstat" "sockstat" "softnet" "stat"
+          "tapestats" "timex" "udp_queues" "uname" "vmstat" "xfs" "zfs"
+        ];
       };
     };
 
