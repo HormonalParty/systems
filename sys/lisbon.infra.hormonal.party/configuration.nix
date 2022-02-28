@@ -7,6 +7,7 @@
     ../../modules/hardware/amd
     ../../modules/remote-build-host
     ../../modules/zfs
+    ../../modules/prometheus
   ];
 
   boot.loader.grub = {

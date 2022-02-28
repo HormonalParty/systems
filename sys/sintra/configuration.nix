@@ -11,6 +11,7 @@
     ../../modules/plex
     ../../modules/zfs
     ../../modules/vpn
+    ../../modules/prometheus
   ];
 
   boot.loader.systemd-boot.enable = true;
