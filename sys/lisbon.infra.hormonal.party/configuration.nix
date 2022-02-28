@@ -57,7 +57,12 @@
 
   system.stateVersion = "22.05";
 
-  virtualisation.docker.enable = true;
-
-  virtualisation.oci-containers.backend = "docker";
+  virtualisation.containerd = {
+    enable = true;
+    settings = {
+      plugins."io.containerd.grpc.v1.cri" = {
+        containerd.snapshotter = "overlayfs";
+      };
+    };
+  };
 }
