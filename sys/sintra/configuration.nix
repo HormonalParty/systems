@@ -85,7 +85,7 @@
     enable = true;
     securityType = "user";
     extraConfig = ''
-      hosts allow = 192.168.2.0/24 localhost
+      hosts allow = 192.168.2.0/24 100.94.89.26/32 localhost
       hosts deny = 0.0.0.0/0
       vfs objects = catia fruit streams_xattr
       fruit:appl = yes
