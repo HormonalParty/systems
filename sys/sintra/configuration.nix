@@ -158,6 +158,14 @@
     };
   };
 
+  services.nginx.virtualHosts."plex.hormonal.party" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:32400";
+    };
+  };
+
   time.timeZone = "UTC";
 
   system.stateVersion = "21.05";
