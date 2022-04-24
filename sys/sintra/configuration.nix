@@ -71,6 +71,18 @@
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
+    zfsStorage3 = { # Exos X18 18TB
+      device = "/dev/disk/by-uuid/aa655c46-7435-4b5c-a7ca-a344961b6d4d";
+      fallbackToPassword = true;
+      keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
+      keyFileSize = 4096;
+    };
+    zfsStorage4 = { # Exos X18 18TB
+      device = "/dev/disk/by-uuid/0062886f-0d1e-47a8-ac1d-2ba36ea0d401";
+      fallbackToPassword = true;
+      keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
+      keyFileSize = 4096;
+    };
   };
 
   services.nfs.server.enable = true;
