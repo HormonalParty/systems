@@ -149,17 +149,21 @@
   security.acme.acceptTerms = true;
   security.acme.defaults.email = "dani@builds.terrible.systems";
 
-  services.nginx.enable = true;
+  services.nginx = {
+    enable = true;
+
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+  };
 
   services.nginx.virtualHosts."nixcache.infra.terrible.systems" = {
     enableACME = true;
     forceSSL = true;
-    locations."/".extraConfig = ''
-      proxy_pass http://127.0.0.1:${toString config.services.nix-serve.port};
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    '';
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
+    };
   };
 
   services.nginx.virtualHosts."plex.terrible.systems" = {
@@ -167,6 +171,7 @@
     forceSSL = true;
     locations."/" = {
       proxyPass = "http://127.0.0.1:32400";
+      proxyWebsockets = true;
     };
   };
 
@@ -175,6 +180,7 @@
     forceSSL = true;
     locations."/" = {
       proxyPass = "http://127.0.0.1:32400";
+      proxyWebsockets = true;
     };
   };
 
