@@ -7,6 +7,7 @@
     ../../modules/hardware/amd
     ../../modules/remote-build-host
     ../../modules/zfs
+    ../../modules/vpn
     ../../modules/prometheus
   ];
 
@@ -57,6 +58,7 @@
 
   system.stateVersion = "22.05";
 
+  virtualisation.docker.enable = true;
   virtualisation.containerd = {
     enable = true;
     settings = {
