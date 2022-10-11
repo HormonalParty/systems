@@ -11,6 +11,10 @@
       sandbox = true;
       trusted-users = [ "@wheel" ];
       auto-optimise-store = true;
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
 
       substituters = [
         "https://nixcache.infra.terrible.systems/"
