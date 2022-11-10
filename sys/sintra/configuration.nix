@@ -12,6 +12,7 @@
     ../../modules/zfs
     ../../modules/vpn
     ../../modules/prometheus
+    ../../modules/gomodulecache
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -97,7 +98,7 @@
     enable = true;
     securityType = "user";
     extraConfig = ''
-      hosts allow = 192.168.2.0/24 100.94.89.26/32 localhost
+      hosts allow = 192.168.2.0/24 100. localhost
       hosts deny = 0.0.0.0/0
       vfs objects = catia fruit streams_xattr
       fruit:appl = yes
@@ -142,6 +143,7 @@
       445 139 # samba
       443
       80
+      32400
     ];
     enable = true;
   };
@@ -161,8 +163,13 @@
   services.nginx.virtualHosts."nixcache.infra.terrible.systems" = {
     enableACME = true;
     forceSSL = true;
+    locations."/".proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
+  };
+
+  services.nginx.virtualHosts."plex.home.arpa" = {
     locations."/" = {
-      proxyPass = "http://127.0.0.1:${toString config.services.nix-serve.port}";
+      proxyPass = "http://127.0.0.1:32400";
+      proxyWebsockets = true;
     };
   };
 
@@ -182,6 +189,12 @@
       proxyPass = "http://127.0.0.1:32400";
       proxyWebsockets = true;
     };
+  };
+
+  services.nginx.virtualHosts."goproxy.tailnet.hormonal.party" = {
+    enableACME = false;
+    forceSSL = false;
+    locations."/".proxyPass = "http://127.0.0.1:9000";
   };
 
   time.timeZone = "UTC";
