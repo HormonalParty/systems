@@ -10,8 +10,17 @@
         path = pkgs.fetchFromGitHub {
           owner = "djdembeck";
           repo = "Audnexus.bundle";
-          rev = "v0.4.0";
-          sha256 = "sha256-9xNvOBmdWcOhTGLLs5fv6/5kq9eyocrWMkdpZanVO/s=";
+          rev = "v1.3.1";
+          sha256 = "sha256-HgbPZdKZq3uT44n+4owjPajBbkEENexyPwkFuriiqU4=";
+        };
+      })
+      (builtins.path {
+        name = "XBMCnfoMoviesImporter.bundle";
+        path = pkgs.fetchFromGitHub {
+          owner = "gboudreau";
+          repo = "XBMCnfoMoviesImporter.bundle";
+          rev = "d81d1f8768cf3874787016126f9d3fca70e87593";
+          sha256 = "sha256-Epd6VHIfXsTXlOyWkSDHbg5Uxs7Y7/EMza7z31rckzo=";
         };
       })
     ];
