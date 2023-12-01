@@ -25,6 +25,7 @@
 
   networking = {
     firewall = {
+      trustedInterfaces = [ "tailscale0" ];
       allowedTCPPorts = [ 22 80 443 8000 8001 8002 8003 8080 3000 4242 ];
       enable = true;
     };
@@ -99,9 +100,10 @@
   services.nginx = {
     enable = true;
 
+    logError = "stderr debug";
+
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
-    recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
     commonHttpConfig = ''
@@ -111,9 +113,6 @@
           https   "max-age=31536000; includeSubdomains; preload";
       }
       add_header Strict-Transport-Security $hsts_header;
-
-      # Enable CSP for your services.
-      #add_header Content-Security-Policy "script-src 'self'; object-src 'none'; base-uri 'none';" always;
 
       # Minimize information leaked to other domains
       add_header 'Referrer-Policy' 'origin-when-cross-origin';
@@ -129,7 +128,10 @@
       add_header X-XSS-Protection "1; mode=block";
 
       # This might create errors
-      proxy_cookie_path / "/; secure; HttpOnly; SameSite=strict";
+      #proxy_cookie_path / "/; secure; HttpOnly; SameSite=strict";
+
+      proxy_headers_hash_max_size 1024;
+      proxy_headers_hash_bucket_size 128;
     '';
 
     enableReload = true;
@@ -166,6 +168,45 @@
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         server_name_in_redirect off;
       '';
+    };
+  };
+
+  services.nginx.virtualHosts."git.hormonal.party" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:3700";
+
+      extraConfig = ''
+        client_max_body_size 512M;
+        proxy_set_header Connection $http_connection;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+      '';
+    };
+  };
+
+
+  services.gitea = {
+    enable = true;
+    appName = "Gitea";
+    database = {
+      type = "sqlite3";
+    };
+    settings = {
+      actions.ENABLED = true;
+      service = {
+        DISABLE_REGISTRATION = true;
+      };
+      server = {
+        DOMAIN = "git.hormonal.party";
+        ROOT_URL = "https://git.hormonal.party/";
+        HTTP_ADDR = "127.0.0.1";
+        HTTP_PORT = 3700;
+      };
     };
   };
 }
