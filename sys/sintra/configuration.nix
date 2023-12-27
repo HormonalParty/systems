@@ -3,16 +3,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/default
-    ../../modules/remote-build-host
-    ../../modules/nix-cache-host
-    ../../modules/hardware/amd
-    ../../modules/hardware/nvidia
-    ../../modules/plex
-    ../../modules/zfs
-    ../../modules/vpn
-    ../../modules/prometheus
-    ../../modules/gomodulecache
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -49,58 +39,69 @@
   services.resolved.enable = true;
 
   boot.initrd.luks.devices = {
-    zfsRootPool = { # nvme0n1p1
+    zfsRootPool = {
+      # nvme0n1p1
       device = "/dev/disk/by-uuid/a53d31be-e3db-4088-9860-e22b884b20d4";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    docker = { # nvme0n1p2
+    docker = {
+      # nvme0n1p2
       device = "/dev/disk/by-uuid/3e31163c-1810-4d1a-bc84-cff50300920b";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    swap = { # nvme0n1p3
+    swap = {
+      # nvme0n1p3
       device = "/dev/disk/by-uuid/717d41c2-06c0-44d5-b5e1-e69725ba77ad";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
 
-    zfsStorage1 = { # Exos X18 18TB
+    zfsStorage1 = {
+      # Exos X18 18TB
       device = "/dev/disk/by-uuid/a68d6ccc-0765-4aa7-92fd-d23331e4f3cb";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    zfsStorage2 = { # Exos X18 18TB
+    zfsStorage2 = {
+      # Exos X18 18TB
       device = "/dev/disk/by-uuid/73360e33-7234-493c-8438-cf5940d469c6";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    zfsStorage3 = { # Exos X18 18TB
+    zfsStorage3 = {
+      # Exos X18 18TB
       device = "/dev/disk/by-uuid/aa655c46-7435-4b5c-a7ca-a344961b6d4d";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    zfsStorage4 = { # Exos X18 18TB
+    zfsStorage4 = {
+      # Exos X18 18TB
       device = "/dev/disk/by-uuid/0062886f-0d1e-47a8-ac1d-2ba36ea0d401";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    zfsStorage5 = { # Exos X20 20TB
+    zfsStorage5 = {
+      # Exos X20 20TB
       device = "/dev/disk/by-uuid/3c6d88db-04b4-477f-a3a8-d197789d7c92";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    zfsStorage6 = { # Exos X20 20TB
+    zfsStorage6 = {
+      # Exos X20 20TB
       device = "/dev/disk/by-uuid/2ef8a68b-a914-4472-8448-c5fd9a8dd76c";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    zfsStorage7 = { # Exos X20 20TB
+    zfsStorage7 = {
+      # Exos X20 20TB
       device = "/dev/disk/by-uuid/045706b9-4cb7-4bca-85ab-e8070bf6bf7d";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
     };
-    zfsStorage8 = { # Exos X20 20TB
+    zfsStorage8 = {
+      # Exos X20 20TB
       device = "/dev/disk/by-uuid/95099d33-7f73-4ba7-af5b-efbb238b80c2";
       keyFile = "/dev/disk/by-id/usb-SanDisk_Ultra_USB_3.0_05013b3605c960c2dcc4e15d2521bab31346ebcceb4b9748f07ba78ddeb419906f20000000000000000000001a805476009c0d1091558107cba73be6-0:0";
       keyFileSize = 4096;
@@ -169,12 +170,14 @@
   networking.firewall = {
     trustedInterfaces = [ "tailscale0" ];
     allowedUDPPorts = [
-      137 138 # samba
-     ];
+      137
+      138 # samba
+    ];
     allowedTCPPorts = [
       2049 # nfs
       22 # ssh
-      445 139 # samba
+      445
+      139 # samba
       443
       80
       32400
@@ -315,10 +318,10 @@
     isSystemUser = true;
   };
 
-  users.groups.photoprism = {};
+  users.groups.photoprism = { };
   systemd.services.photoprism.serviceConfig.DynamicUser = lib.mkForce false;
 
- services.photoprism = {
+  services.photoprism = {
     enable = true;
     port = 2342;
     originalsPath = "/storage/photoprism/originals";
@@ -343,12 +346,12 @@
     dataDir = "/storage/photoprism/mysql";
     package = pkgs.mariadb;
     ensureDatabases = [ "photoprism" ];
-    ensureUsers = [ {
+    ensureUsers = [{
       name = "photoprism";
       ensurePermissions = {
         "photoprism.*" = "ALL PRIVILEGES";
       };
-    } ];
+    }];
   };
 
   services.tailscale = {

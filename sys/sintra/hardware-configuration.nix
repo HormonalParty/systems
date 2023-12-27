@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "mpt3sas" "usbhid" "sd_mod" "igb" "usb_storage" ];
@@ -14,22 +15,26 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "root/root";
+    {
+      device = "root/root";
       fsType = "zfs";
     };
 
   fileSystems."/home" =
-    { device = "root/home";
+    {
+      device = "root/home";
       fsType = "zfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/79D4-F878";
+    {
+      device = "/dev/disk/by-uuid/79D4-F878";
       fsType = "vfat";
     };
 
   fileSystems."/var/lib/docker" =
-    { device = "/dev/mapper/docker";
+    {
+      device = "/dev/mapper/docker";
       fsType = "ext4";
     };
 
@@ -61,6 +66,6 @@
   boot.zfs.extraPools = [ "storagePool" ];
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/7a85e95c-0227-4670-80e6-e80b1afab498"; } ];
+    [{ device = "/dev/disk/by-uuid/7a85e95c-0227-4670-80e6-e80b1afab498"; }];
 
 }

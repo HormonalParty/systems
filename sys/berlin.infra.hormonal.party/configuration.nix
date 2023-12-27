@@ -1,11 +1,13 @@
 { config, lib, pkgs, ... }:
 
-let portMap = {
-  recipies = 2368;
-  quassel = 4242;
-  grafana = 3000;
-  loki = 3001;
-}; in
+let
+  portMap = {
+    recipies = 2368;
+    quassel = 4242;
+    grafana = 3000;
+    loki = 3001;
+  };
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -22,7 +24,8 @@ let portMap = {
     version = 2;
     efiSupport = false;
     devices = [
-      "/dev/nvme0n1" "/dev/nvme1n1"
+      "/dev/nvme0n1"
+      "/dev/nvme1n1"
     ];
   };
 
@@ -55,8 +58,11 @@ let portMap = {
       interface = "eth0";
     };
     nameservers = [
-      "213.133.98.98" "213.133.99.99" "213.133.100.100"
-      "2a01:4f8:0:a0a1::add:1010" "2a01:4f8:0:a102::add:9999"
+      "213.133.98.98"
+      "213.133.99.99"
+      "213.133.100.100"
+      "2a01:4f8:0:a0a1::add:1010"
+      "2a01:4f8:0:a102::add:9999"
       "2a01:4f8:0:a111::add:9898"
     ];
   };

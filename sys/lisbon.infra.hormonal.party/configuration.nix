@@ -9,7 +9,8 @@
     enable = true;
     efiSupport = false;
     devices = [
-      "/dev/nvme0n1" "/dev/nvme1n1"
+      "/dev/nvme0n1"
+      "/dev/nvme1n1"
     ];
   };
 
@@ -43,8 +44,10 @@
       interface = "eth0";
     };
     nameservers = [
-      "185.12.64.1" "185.12.64.2"
-      "2a01:4ff:ff00::add:1" "2a01:4ff:ff00::add:2"
+      "185.12.64.1"
+      "185.12.64.2"
+      "2a01:4ff:ff00::add:1"
+      "2a01:4ff:ff00::add:2"
     ];
   };
 
