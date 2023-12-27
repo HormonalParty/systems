@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+nixroot="$(dirname "$0")"
+
+if [ "$#" -eq 0 ]; then
+    sys="$(hostname -f)"
+    if ! [ -f "sys/$sys/configuration.nix" ]; then
+        echo -e "\e[31;1merror:\e[0m must specify a system definition" >&2
+        echo "Available system definitions are:" >&2
+        find "$nixroot/sys" -mindepth 1 -maxdepth 1 -type d | awk -F / '{print "- " $NF}' | sed 's/\.nix$//' >&2
+        exit 1
+    fi
+    sys="$(hostname)"
+else
+    sys="$1"
+    shift
+fi
+
+linkdir="$(mktemp -d)"
+link="$linkdir/result"
+
+nix --extra-experimental-features "nix-command flakes" build --option substituters https://cache.nixos.org --out-link "$link" .#nixosConfigurations.$sys.config.system.build.toplevel
+
+path="$(readlink "$link")"
+nix-env -p /nix/var/nix/profiles/system --set "$path"
+rm -rf "$linkdir"
+
+exec "$path/bin/switch-to-configuration" switch

@@ -3,12 +3,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/default
-    ../../modules/hardware/amd
-    ../../modules/remote-build-host
-    ../../modules/zfs
-    ../../modules/vpn
-    ../../modules/prometheus
   ];
 
   boot.loader.grub = {
